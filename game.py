@@ -2,6 +2,7 @@ import pygame
 from settings import *
 from snake import Snake
 from food import Food
+import numpy as np
 
 class Game:
     def __init__(self):
@@ -18,6 +19,7 @@ class Game:
         self.move_delay = 150
         self.running = True
         self.game_over = False
+        self.eat_sound = self.create_beep_sound()
 
     def run(self):
         while self.running:
@@ -43,6 +45,7 @@ class Game:
                     self.snake.grow()
                     self.score += 10
                     self.food.respawn()
+                    self.eat_sound.play()
                     # Проверка, чтобы еда не появлялась на змейке
                     while any(self.food.x == seg[0] and self.food.y == seg[1] 
                              for seg in self.snake.body):
@@ -108,6 +111,21 @@ class Game:
         self.food.respawn()
         self.score = 0
         self.game_over = False
+
+    def create_beep_sound(self):
+        # Создаем простой звуковой сигнал (бип)
+       
+        
+        frequency = 440  # Герц (нота Ля)
+        duration = 100   # миллисекунд
+        sample_rate = 44100
+        
+        samples = np.array([32767 * np.sin(2 * np.pi * frequency * i / sample_rate) 
+                        for i in range(int(duration * sample_rate / 1000))]).astype(np.int16)
+        samples = np.repeat(samples.reshape(len(samples), 1), 2, axis=1)  # Стерео
+        
+        sound = pygame.sndarray.make_sound(samples)
+        return sound
 
 if __name__ == "__main__":
     game = Game()
