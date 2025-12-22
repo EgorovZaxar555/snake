@@ -119,7 +119,7 @@ class Game:
         
         samples = np.array([32767 * np.sin(2 * np.pi * frequency * i / sample_rate) 
                         for i in range(int(duration * sample_rate / 1000))]).astype(np.int16)
-        samples = np.repeat(samples.reshape(len(samples), 1), 2, axis=1)  # Стерео
+        samples = np.repeat(samples.reshape(len(samples), 1), 2, axis=1)
         
         sound = pygame.sndarray.make_sound(samples)
         return sound
