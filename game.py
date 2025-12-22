@@ -116,8 +116,8 @@ class Game:
         # Создаем простой звуковой сигнал (бип)
        
         
-        frequency = 440  # Герц (нота Ля)
-        duration = 100   # миллисекунд
+        frequency = 440
+        duration = 100
         sample_rate = 44100
         
         samples = np.array([32767 * np.sin(2 * np.pi * frequency * i / sample_rate) 
